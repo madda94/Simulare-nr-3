@@ -1,23 +1,20 @@
-export class ApproachDetection {
+export class ArcDetection {
 	constructor(simulare) {
 		this.simulare = simulare;
 		this.totalWidth = this.simulare.width;
 		this.totalHeight = this.simulare.height;
-		this.width = 0;
-		this.height = 1000;
-		this.x = this.totalWidth / 3.2;
-		this.y = this.totalHeight - this.height / 2;
+		this.x = this.totalWidth / 2
+		this.y = this.totalHeight / 2;
 		this.blinking = true;
 		this.lastBlinkTime = 0;
 		this.blinkInterval = 450;
 		this.appearBlinking = false;
 	}
-	draw(context) {
+	draw(context, radius) {
 		if (this.blink() && this.appearBlinking) {
 			context.beginPath();
 			context.setLineDash([7]);
-			context.moveTo(this.x, this.y);
-			context.lineTo(this.x, this.height);
+			context.arc(this.x, this.y, radius, 0, 2 * Math.PI);
 			context.lineWidth = 3;
 			context.strokeStyle = 'red';
 			context.stroke();
@@ -31,25 +28,5 @@ export class ApproachDetection {
 		}
 		return this.blinking;
 	}
-	movingBack() {
-		this.x += 10;
-	}
 }
 
-export class ArcDetection extends ApproachDetection {
-	constructor(simulare) {
-		super(simulare);
-		this.x = 0;
-		this.y = this.totalHeight;
-	}
-	draw(context, radius) {
-		if (this.blink() && this.appearBlinking) {
-			context.beginPath();
-			context.setLineDash([7]);
-			context.arc(this.x, this.y, radius, 0, 2 * Math.PI, true);
-			context.lineWidth = 3;
-			context.strokeStyle = 'red';
-			context.stroke();
-		}
-	}
-}

@@ -1,81 +1,88 @@
-import { Fire, Dust } from './missileReaction.js';
-import { Explosion } from './explosions.js';
+import { Cloud, Dust, Dust2, SmokeAK726 } from './missileReaction.js';
 
 class Missile {
 	constructor(simulare) {
 		this.simulare = simulare;
 		this.totalWidth = this.simulare.width;
 		this.totalHeight = this.simulare.height;
-		this.spriteWidth = 300;
-		this.spriteHeight = 300;
-		this.width = this.spriteWidth / 4;
-		this.height = this.spriteHeight / 4;
-		this.x = this.totalWidth / 2.7;
+		this.spriteWidth = 238;
+		this.spriteHeight = 179;
+		this.width = this.spriteWidth / 3;
+		this.height = this.spriteHeight / 3;
 		this.zoomedWidth = this.width * 1.22;
 		this.zoomedHeight = this.width * 1.22;
-		this.speedX = 10;
-		this.speedY = 10;
+		this.speedX = 3;
+		this.speedY = 1.2;
 		this.frame = 1;
 		this.frameTime = 0;
 		this.frameInterval = 5000;
-		this.moveDown = false;
 		this.updatedPosition = false;
 		this.radius = this.width / 2;
-		this.explosions = [new Explosion(this)];
 		this.markedForDeletion = false;
+		this.moveDown = false;
+		this.deviat = false
 	}
 	draw(context) {
+		context.save();
+		context.translate(this.x + this.width / 2, this.y + this.height / 2);
+		context.rotate(Math.PI / 1.35);
+		context.translate(-this.width / 2, -this.height / 2);
 		context.drawImage(
 			this.image,
 			this.frame * this.spriteWidth,
 			0,
 			this.spriteWidth,
 			this.spriteHeight,
-			this.x,
-			this.y,
+			0,
+			0,
 			this.width,
 			this.height
 		);
+		context.restore();
 	}
-	drawZoomed(context) {
+	draw2(context) {
+		context.save();
+		context.translate(this.x2 + this.width / 2, this.y2 + this.height / 2);
+		context.rotate(-Math.PI / 4.5);
+		context.translate(-this.width / 2, -this.height / 2);
 		context.drawImage(
 			this.image,
 			this.frame * this.spriteWidth,
 			0,
 			this.spriteWidth,
 			this.spriteHeight,
-			this.zoomedX,
-			this.zoomedY,
-			this.zoomedWidth,
-			this.zoomedHeight
+			0,
+			0,
+			this.width,
+			this.height
 		);
+		context.restore();
+	}
+	drawAfterDeviation(context) {
+		context.save();
+		context.translate(this.x + this.width / 2, this.y + this.height / 2);
+		context.rotate(Math.PI / 1.5);
+		context.translate(-this.width / 2, -this.height / 2);
+		context.drawImage(
+			this.image,
+			this.frame * this.spriteWidth,
+			0,
+			this.spriteWidth,
+			this.spriteHeight,
+			0,
+			0,
+			this.width,
+			this.height
+		);
+		context.restore();
 	}
 	update() {
-		if (!this.moveDown) {
-			this.x -= this.speedX;
-			this.y -= this.speedY;
-			this.createFireReaction();
-		} else if (this.moveDown) {
-			this.speedX = 3;
-			this.speedY = 1.5;
-			this.x -= this.speedX;
-			this.y += this.speedY;
-		}
+		this.x += this.speedX;
+		this.y -= this.speedY;
 	}
-	updateZoomed() {
-		if (this.moveDown) {
-			this.speedX = 1;
-			this.speedY = 0.4;
-			this.zoomedX -= this.speedX;
-			this.zoomedY += this.speedY;
-		}
-	}
-	updatePosition() {
-		this.spriteWidth = 239.5;
-		this.spriteHeight = 187;
-		this.moveDown = true;
-		this.y = 0;
-		this.updatedPosition = true;
+	update2() {
+		this.x2 -= this.speedX;
+		this.y2 += this.speedY;
 	}
 	lightHeadMissile() {
 		if (this.frameTime <= this.frameInterval) this.frameTime++;
@@ -86,50 +93,28 @@ class Missile {
 
 		requestAnimationFrame(() => this.lightHeadMissile());
 	}
-
-	createFireReaction() {
-		this.simulare.fireParticles.unshift(
-			new Fire(
-				this.simulare,
-				this.x + this.width * 0.9,
-				this.y + this.height * 0.6
-			)
-		);
-	}
-	createExplosion(context, timestamp) {
-		this.explosions = this.explosions.filter(
-			(explosion) => !explosion.markedForDeletion
-		);
-		if (this.explosions.length !== 0)
-			this.explosions.animate(context, timestamp);
-	}
 }
 
 export class MissileP21 extends Missile {
 	constructor(simulare) {
 		super(simulare);
-		this.y = this.totalHeight - this.height - 90;
-		this.image = p21LightHead;
-		// this.limit = this.simulare.width / 6;
-	}
-	updatePosition() {
-		super.updatePosition();
-		this.image = p21Down;
-		this.x = this.totalWidth - 2.5 * this.width;
+		this.x = 0;
+		this.y = this.totalHeight - 70;
+		this.x2 = this.totalWidth - 100;
+		this.y2 = 0;
+		this.image = p21Img;
 	}
 }
 
 export class MissileP22 extends Missile {
 	constructor(simulare) {
 		super(simulare);
-		this.y = this.totalHeight - this.height - 75;
-		this.image = p22LightHead;
+		this.x = -70;
+		this.y = this.totalHeight;
+		this.x2 = this.totalWidth;
+		this.y2 = -20;
+		this.image = p22Img;
 		this.zoomedX = this.x * 1.63;
-	}
-	updatePosition() {
-		super.updatePosition();
-		this.image = p22Down;
-		this.x = this.totalWidth - 3.5 * this.width;
 	}
 }
 
@@ -142,8 +127,8 @@ export class FireAK630 {
 		this.spriteHeight = 260;
 		this.width = this.spriteWidth / 5;
 		this.height = this.spriteHeight / 5;
-		this.x = this.simulare.width / 5.8;
-		this.y = this.simulare.height / 2.2;
+		this.x = this.simulare.width / 1.77;
+		this.y = this.simulare.height / 3.1;
 		this.image = ak630img;
 		this.fireCount = 0;
 		this.maxFire = 40;
@@ -170,6 +155,147 @@ export class FireAK630 {
 		}
 	}
 }
+export class FireAK630_2 extends FireAK630 {
+	constructor(simulare) {
+		super(simulare);
+		this.x = this.simulare.width / 2.35;
+		this.y = this.simulare.height / 2.9;
+	}
+	createSmokeReaction() {
+		for (let i = 0; i < 15; i++) {
+			this.simulare.smokeParticles2.unshift(new Dust2(this.simulare));
+		}
+	}
+}
+
+export class FireAK726 {
+	constructor(simulare) {
+		this.simulare = simulare;
+		this.totalWidth = this.simulare.width;
+		this.totalHeight = this.simulare.height;
+		this.spriteWidth = 185;
+		this.spriteHeight = 170;
+		this.width = this.spriteWidth / 2.5;
+		this.height = this.spriteHeight / 2.5;
+		this.x = this.simulare.width / 2.55;
+		this.y = this.simulare.height / 2.3;
+		this.moveX = this.x;
+		this.moveY = this.y;
+		this.image = ak726img;
+		this.fireInterval = 100;
+		this.fireTime = 0;
+		this.speedX = 5;
+		this.speedY = 2.5;
+	}
+
+	draw(context) {
+		this.createSmokeReaction();
+		context.drawImage(
+			this.image,
+			0,
+			0,
+			this.spriteWidth,
+			this.spriteHeight,
+			this.moveX,
+			this.moveY,
+			this.width,
+			this.height
+		);
+	}
+
+	update(context) {
+		if (this.fireTime < this.fireInterval) {
+			if (this.moveX >= this.x - 250) {
+				this.moveX -= this.speedX;
+				this.moveY += this.speedY;
+				this.draw(context);
+			}
+			this.fireTime++;
+		} else {
+			this.moveX = this.x;
+			this.moveY = this.y;
+			this.draw(context);
+			this.fireTime = 0;
+		}
+	}
+
+	createSmokeReaction() {
+		// for (let i = 0; i < 2; i++) {
+		this.simulare.smokeParticlesAK726.unshift(
+			new SmokeAK726(
+				this.simulare,
+				this.moveX + this.width,
+				this.moveY + this.height / 2
+			)
+		);
+	}
+}
+export class FirePK16 {
+	constructor(simulare, x, y) {
+		this.simulare = simulare;
+		this.totalWidth = this.simulare.width;
+		this.totalHeight = this.simulare.height;
+		this.x = x;
+		this.width = 10;
+		this.height = 30;
+		this.y = y;
+		this.moveX = this.x;
+		this.moveY = this.y;
+		this.fireInterval = 150;
+		this.fireTime = 0;
+		this.speedX = 10;
+		this.speedY = 4;
+		this.color = 'black'
+		this.fireCount = 0
+		this.maxFire = 0
+		this.fireStop = false
+		this.cloudDrawn = false
+	}
+	draw(context) {
+		context.save()
+		context.beginPath()
+		context.translate(this.moveX + this.width / 2, this.moveY + this.height / 2);
+		context.rotate(Math.PI / 3);
+		context.translate(-this.width / 2, -this.height / 2);
+		context.fillStyle = this.color
+		// context.rect(0, 0, this.width, this.height);
+		context.roundRect(0, 0, this.width, this.height, [0, 0, 5, 5]);
+		context.fill();
+		context.restore()
+	}
+
+	update(context) {
+		if (this.fireCount > this.maxFire) this.fireStop = true
+		if (!this.fireStop) {
+			if (this.fireTime < this.fireInterval) {
+				if (this.moveX >= this.x - 200) {
+					this.moveX -= this.speedX;
+					this.moveY += this.speedY;
+					this.draw(context);
+				}
+				else {
+					this.createCloud(this.moveX - 20, this.moveY + 30)
+					this.cloudDrawn = true
+				}
+				this.fireTime++;
+			} else {
+				this.fireCount++
+				this.moveX = this.x;
+				this.moveY = this.y;
+				this.draw(context);
+				this.fireTime = 0;
+			}
+		}
+	}
+	createCloud(x, y) {
+		if (!this.cloudDrawn)
+		this.simulare.cloud.unshift(
+			new Cloud(
+				this.simulare, x, y
+			)
+		);
+	}
+}
 
 export class Radar {
 	constructor(simulare) {
@@ -177,16 +303,16 @@ export class Radar {
 		this.image = radar;
 		this.spriteWidth = 129.4;
 		this.spriteHeight = 96.25;
-		this.width = this.spriteWidth / 2.2;
-		this.height = this.spriteHeight / 2.2;
+		this.width = this.spriteWidth / 3.6;
+		this.height = this.spriteHeight / 3.6;
 		this.frameX = 0;
 		this.maxFrameX = 4;
 		this.maxFrameY = 3;
 		this.frameY = 0;
 		this.frameCount = 0;
 		this.frameInterval = 15;
-		this.x = this.simulare.width / 7.2;
-		this.y = this.simulare.height / 2.35;
+		this.x = this.simulare.width / 1.87;
+		this.y = this.simulare.height / 3.12;
 	}
 	draw(context) {
 		context.drawImage(

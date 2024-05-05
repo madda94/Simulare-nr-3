@@ -14,7 +14,7 @@ const simulare = new Simulare(canvas.width, canvas.height);
 
 window.addEventListener('load', () => {
 	simulare.background.draw(ctx);
-	simulare.initialDisplayS1(ctx);
+	simulare.initialDisplay(ctx);
 	startBtn.style.display = 'block';
 });
 

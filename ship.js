@@ -1,6 +1,13 @@
-import { MissileP21, MissileP22, FireAK630, Radar } from './missile.js';
-import { ArcDetection, ApproachDetection } from './approachLine.js';
-import { ShipFire } from './missileReaction.js';
+import {
+	MissileP21,
+	MissileP22,
+	FireAK630,
+	FireAK630_2,
+	FireAK726,
+	FirePK16,
+	Radar,
+} from './missile.js';
+import { ArcDetection } from './approachLine.js';
 
 export class Ship {
 	constructor(simulare) {
@@ -9,16 +16,13 @@ export class Ship {
 		this.totalHeight = this.simulare.height;
 		this.spriteWidth = 402;
 		this.spriteHeight = 149;
-		this.initialWidth = this.spriteWidth / 3;
+		this.initialWidth = this.spriteWidth / 2.5;
 		this.width = this.spriteWidth;
-		this.initialHeight = this.spriteHeight / 3;
+		this.initialHeight = this.spriteHeight / 2.5;
 		this.height = this.spriteHeight;
-		this.initialX = this.totalWidth - this.width;
-		this.x = this.totalWidth - this.width;
-		this.initialY = this.totalHeight / 2;
-		this.y = this.totalHeight - 1.5 * this.height;
-		this.image = nprImage;
-		this.approachLine = new ApproachDetection(this.simulare);
+		this.initialX = this.simulare.width - this.initialWidth;
+		this.initialY = this.initialHeight / 2;
+		this.image = npr0Image;
 		this.collisionLine;
 		this.missiles = {
 			p21: new MissileP21(this.simulare),
@@ -28,19 +32,6 @@ export class Ship {
 		this.markedForDeletion = false;
 		this.timeForNpr2 = false;
 		this.moveX = 0;
-	}
-	draw(context) {
-		context.drawImage(
-			this.image,
-			0,
-			0,
-			this.spriteWidth,
-			this.spriteHeight,
-			this.x,
-			this.y,
-			this.width,
-			this.height
-		);
 	}
 	createFireReaction() {
 		for (let i = 0; i < 10; i++) {
@@ -83,54 +74,54 @@ export class Ship {
 			this.approachLine.appearBlinking = false;
 		}
 	}
-	controlNpr(context) {
-		this.draw(context);
-		this.lineBlinking(context);
-		this.update();
-		if (this.x > this.totalWidth + 2.8 * this.width) {
-			this.markedForDeletion = true;
-			this.simulare.timeForFregata = true;
-		}
-	}
-	updateMissilesPosition() {
-		Object.keys(this.missiles).forEach((key) => {
-			if (!this.missiles[key].updatedPosition) {
-				this.missiles[key].updatePosition();
-			}
-		});
-	}
 }
-
 export class Fregata extends Ship {
 	constructor(simulare) {
 		super(simulare);
 		this.simulare = simulare;
 		this.image = fregataImage;
-		this.spriteWidth = 232;
-		this.spriteHeight = 348;
-		this.initialWidth = this.spriteWidth / 3.5;
-		this.width = this.spriteWidth / 1.4;
-		this.initialHeight = this.spriteHeight / 2;
-		this.height = this.spriteHeight;
-		this.initialX = this.initialWidth;
-		this.x = this.width / 4;
-		this.initialY = this.totalHeight / 2;
-		this.y = this.totalHeight / 2.4;
+		this.spriteWidth = 528;
+		this.spriteHeight = 466;
+		this.initialWidth = this.spriteWidth / 4;
+		this.width = this.spriteWidth / 2.5;
+		this.initialHeight = this.spriteHeight / 3;
+		this.height = this.spriteHeight / 2;
+		this.initialX = this.totalWidth / 2 - this.initialWidth / 2;
+		this.x = this.totalWidth / 2 - this.width / 2;
+		this.initialY = this.totalHeight / 2 - this.initialHeight / 2;
+		this.y = this.totalHeight / 2 - this.height / 2;
 		this.isDrawn = false;
-		this.radius = this.width * 4.25;
-		this.approachLines = new ArcDetection(this.simulare);
+		this.radius = this.width * 2.3;
+		this.approachLine = new ArcDetection(this.simulare);
 		this.radar = new Radar(this.simulare);
 		this.fireAK630 = [
 			new FireAK630(this.simulare),
 			new FireAK630(this.simulare),
-			new FireAK630(this.simulare),
-			new FireAK630(this.simulare),
 		];
+		this.fireAK630_2 = [
+			new FireAK630_2(this.simulare),
+			new FireAK630_2(this.simulare),
+		];
+		this.fireAK726 = [
+			new FireAK726(this.simulare),
+			new FireAK726(this.simulare),
+		];
+		this.firePK16 = new FirePK16(this.simulare, this.x + 25, this.y + this.height / 5.2);
 		this.zoomedIn = false;
 	}
 	draw(context) {
-		super.draw(context);
-		this.drawApproachLine(context, this.approachLines, this.radius);
+		context.drawImage(
+			this.image,
+			0,
+			0,
+			this.spriteWidth,
+			this.spriteHeight,
+			this.x,
+			this.y,
+			this.width,
+			this.height
+		);
+		this.drawApproachLine(context, this.approachLine, this.radius);
 		this.isDrawn = true;
 		if (this.simulare.zoomedIn) this.radar.draw(context);
 	}
@@ -138,11 +129,20 @@ export class Fregata extends Ship {
 		line.appearBlinking = true;
 		line.draw(context, radius);
 	}
-	checkArcCollision(missile) {
+	checkArcCollision1(missile, missileX, missileY) {
 		if (missile) {
-			const dx = missile.x - 0;
-			const dy = missile.y - this.approachLine.y;
-			const distance = Math.trunc(Math.sqrt(dx * dx + dy * dy)) + 130;
+			const dx = this.approachLine.x - missileX;
+			const dy = this.approachLine.y - missileY;
+			const distance = Math.trunc(Math.sqrt(dx * dx + dy * dy)) - 30;
+			const sumOfRadius = missile.radius + this.radius;
+			return distance < sumOfRadius;
+		}
+	}
+	checkArcCollision2(missile, missileX, missileY) {
+		if (missile) {
+			const dx = missileX - this.approachLine.x;
+			const dy = missileY - this.approachLine.y;
+			const distance = Math.trunc(Math.sqrt(dx * dx + dy * dy)) + 20;
 			const sumOfRadius = missile.radius + this.radius;
 			return distance < sumOfRadius;
 		}

@@ -52,3 +52,9 @@ export class Explosion {
 		}
 	}
 }
+
+export class ExplosionShip extends Explosion {
+	constructor(simulare, x, y, size) {
+		super(simulare, x, y, size)
+		this.sizeIncrease = 0.08;
+	}}
