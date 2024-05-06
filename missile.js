@@ -21,6 +21,7 @@ class Missile {
 		this.markedForDeletion = false;
 		this.moveDown = false;
 		this.deviat = false
+		this.lightHead = true;
 	}
 	draw(context) {
 		context.save();
@@ -85,13 +86,15 @@ class Missile {
 		this.y2 += this.speedY;
 	}
 	lightHeadMissile() {
-		if (this.frameTime <= this.frameInterval) this.frameTime++;
-		else if (this.frameTime >= this.frameInterval) {
-			this.frame === 1 ? (this.frame = 0) : (this.frame = 1);
-			this.frameTime = 0;
-		}
+		if (this.lightHead) {
+			if (this.frameTime <= this.frameInterval) this.frameTime++;
+			else if (this.frameTime >= this.frameInterval) {
+				this.frame === 1 ? (this.frame = 0) : (this.frame = 1);
+				this.frameTime = 0;
+			}
 
-		requestAnimationFrame(() => this.lightHeadMissile());
+			requestAnimationFrame(() => this.lightHeadMissile());
+		}
 	}
 }
 
@@ -220,7 +223,6 @@ export class FireAK726 {
 	}
 
 	createSmokeReaction() {
-		// for (let i = 0; i < 2; i++) {
 		this.simulare.smokeParticlesAK726.unshift(
 			new SmokeAK726(
 				this.simulare,

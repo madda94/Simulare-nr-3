@@ -168,6 +168,7 @@ export class Simulare {
 			missile.y -= missile.speedY;
 		} else if (missile && missile.x >= shipPos) {
 			missile.deviat = true;
+			missile.lightHead = false;
 			missile.speedX = 1;
 			missile.speedY = 1.3;
 			missile.x += missile.speedX;
@@ -246,7 +247,7 @@ export class Simulare {
 		}
 	}
 	controlFireAK630(context, ak1, ak2) {
-		if (!ak1.fireStop) {
+		if (!ak1.fireStop && !this.attackOver) {
 			ak1.update(context);
 			ak2.x = this.width / 1.8;
 			ak2.y = this.height / 2.95;
@@ -254,7 +255,7 @@ export class Simulare {
 		}
 	}
 	controlFireAK630_2(context, ak1, ak2) {
-		if (!ak1.fireStop) {
+		if (!ak1.fireStop && !this.attackOver) {
 			ak1.update(context);
 			ak2.x = this.width / 2.35;
 			ak2.y = this.height / 3;
@@ -262,11 +263,13 @@ export class Simulare {
 		}
 	}
 	controlFireAK726(context, ak1, ak2) {
-		ak2.fireInterval = 120;
-		ak2.x = this.width / 2.6;
-		ak2.y = this.height / 2;
-		ak1.update(context);
-		ak2.update(context);
+		if (!this.attackOver) {
+			ak2.fireInterval = 120;
+			ak2.x = this.width / 2.6;
+			ak2.y = this.height / 2;
+			ak1.update(context);
+			ak2.update(context);
+		}
 	}
 
 	controlAttackShip0(ship) {
@@ -289,10 +292,6 @@ export class Simulare {
 			delete ship.missiles.p21;
 		if (ship.missiles.p22 && ship.missiles.p22.markedForDeletion)
 			delete ship.missiles.p22;
-
-		if (!Object.keys(ship.missiles).length) {
-			this.attackOver = true;
-		}
 	}
 	controlAttackShip1(ship) {
 		if (ship.missiles.p21) {
@@ -318,9 +317,6 @@ export class Simulare {
 		if (ship.missiles.p22 && ship.missiles.p22.markedForDeletion)
 			delete ship.missiles.p22;
 
-		if (!Object.keys(ship.missiles).length) {
-			this.attackOver = true;
-		}
 	}
 	checkFregataLineCollision_2km() {
 		if (
@@ -395,6 +391,11 @@ export class Simulare {
 				explosion.update(context);
 				explosion.draw(context);
 			});
+			if (
+				Object.keys(this.ships[0].missiles).length === 0 &&
+				Object.keys(this.ships[1].missiles).length === 0
+			)
+				this.attackOver = true;
 		}
 		requestAnimationFrame(() => this.scenariu1(context));
 	}
