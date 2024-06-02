@@ -5,6 +5,7 @@ import {
 	FireAK630_2,
 	FireAK726,
 	FirePK16,
+	FirePK16_2,
 	Radar,
 } from './missile.js';
 import { ArcDetection } from './approachLine.js';
@@ -24,7 +25,10 @@ export class Ship {
 		this.initialY = this.initialHeight / 2;
 		this.image = npr0Image;
 		this.collisionLine;
-		this.missiles = {
+		this.missilesS1 = {
+			p21: new MissileP21(this.simulare),
+			p22: new MissileP22(this.simulare),
+		};this.missilesS2 = {
 			p21: new MissileP21(this.simulare),
 			p22: new MissileP22(this.simulare),
 		};
@@ -107,6 +111,11 @@ export class Fregata extends Ship {
 			new FireAK726(this.simulare),
 		];
 		this.firePK16 = new FirePK16(this.simulare, this.x + 25, this.y + this.height / 5.2);
+		this.firePK16_2 = new FirePK16_2(
+			this.simulare,
+			this.x + this.width / 1.5,
+			this.y + this.height / 3.2
+		);
 		this.zoomedIn = false;
 	}
 	draw(context) {

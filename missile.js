@@ -1,4 +1,4 @@
-import { Cloud, Dust, Dust2, SmokeAK726 } from './missileReaction.js';
+import { Cloud, Cloud2, Dust, Dust2, SmokeAK726 } from './missileReaction.js';
 
 class Missile {
 	constructor(simulare) {
@@ -63,6 +63,24 @@ class Missile {
 		context.save();
 		context.translate(this.x + this.width / 2, this.y + this.height / 2);
 		context.rotate(Math.PI / 1.5);
+		context.translate(-this.width / 2, -this.height / 2);
+		context.drawImage(
+			this.image,
+			this.frame * this.spriteWidth,
+			0,
+			this.spriteWidth,
+			this.spriteHeight,
+			0,
+			0,
+			this.width,
+			this.height
+		);
+		context.restore();
+	}
+	drawAfterDeviation2(context) {
+		context.save();
+		context.translate(this.x2 + this.width / 2, this.y2 + this.height / 2);
+		context.rotate(Math.PI / 6);
 		context.translate(-this.width / 2, -this.height / 2);
 		context.drawImage(
 			this.image,
@@ -296,6 +314,69 @@ export class FirePK16 {
 				this.simulare, x, y
 			)
 		);
+	}
+}
+export class FirePK16_2 {
+	constructor(simulare, x, y) {
+		this.simulare = simulare;
+		this.totalWidth = this.simulare.width;
+		this.totalHeight = this.simulare.height;
+		this.x = x;
+		this.width = 10;
+		this.height = 30;
+		this.y = y;
+		this.moveX = this.x;
+		this.moveY = this.y;
+		this.fireInterval = 150;
+		this.fireTime = 0;
+		this.color = 'black';
+		this.fireCount = 0;
+		this.maxFire = 6;
+		this.fireStop = false;
+		this.speedX = this.simulare.speed * 5;
+		this.speedY = this.simulare.speed * 4;
+		this.cloudDrawn = false;
+	}
+	draw(context) {
+		context.save();
+		context.beginPath();
+		context.translate(
+			this.moveX + this.width / 2,
+			this.moveY + this.height / 2
+		);
+		context.rotate(Math.PI /3.5);
+		context.translate(-this.width / 2, -this.height / 2);
+		context.fillStyle = this.color;
+		context.roundRect(0, 0, this.width, this.height, [5, 5, 0, 0]);
+		context.fill();
+		context.restore();
+	}
+
+	update(context) {
+		if (this.fireCount > this.maxFire) this.fireStop = true;
+		if (!this.fireStop) {
+			if (this.fireTime < this.fireInterval) {
+				if (this.moveX <= this.x + 200) {
+					this.moveX += this.speedX;
+					this.moveY -= this.speedY;
+					this.draw(context);
+				} else {
+					this.createCloud(this.moveX + 20, this.moveY + 20);
+					this.cloudDrawn = true;
+				}
+				this.fireTime++;
+			} else {
+				this.fireCount++;
+				this.moveX = this.x;
+				this.moveY = this.y;
+				this.draw(context);
+				this.fireTime = 0;
+			}
+		}
+	}
+	createCloud(x, y) {
+		if (!this.cloudDrawn)
+			this.simulare.cloud2.unshift(new Cloud2(this.simulare, x, y));
 	}
 }
 
