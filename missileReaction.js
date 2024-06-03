@@ -58,101 +58,173 @@ export class SmokeAK726 extends Dust2 {
     if (this.x < this.simulare.width / 4) this.speedX = this.speedX * -1;
   }
 }
-export class Cloud extends Particle {
-  constructor(simulare, x, y) {
-    super(simulare);
-    this.size = Math.random() * 10 + 10;
-    this.x = x
-    this.y = y
-    this.opacity = 0.4
-    this.opacityDecrease = 0.0008
-    this.color = `rgba(187, 205, 229, ${this.opacity})`;
-    // this.range = 20
-    this.timer = 0
-    this.interval = 50
-  }
-  draw(context) {
-    context.beginPath();
-    context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 10, this.y, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 20, this.y, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 30, this.y, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 5, this.y - 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 15, this.y - 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 25, this.y - 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 35, this.y - 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 5, this.y + 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 15, this.y + 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 25, this.y + 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 35, this.y + 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 10, this.y + 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 20, this.y + 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 30, this.y + 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 10, this.y - 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 20, this.y - 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 30, this.y - 10, this.size, 0, Math.PI * 2);
-    context.fillStyle = this.color;
-    context.fill();
-  }
-  update(context) {
-    this.draw(context)
-    if (this.x < 0) this.x = 0
-    if (this.y > this.simulare.height) this.y = this.simulare.height
-    if (this.size > 60) {
-      if (this.timer < this.interval) this.timer++
-      else
-        this.size *= 1.001;
-    }
-    else this.size *= 1.01;
-    this.opacity -= this.opacityDecrease
-    this.color = `rgba(187, 205, 229, ${this.opacity})`;
-    if (this.size > 100 || this.opacity === 0) this.markedForDeletion = true;
-  }
+class Cloud extends Particle {
+	constructor(simulare, x, y) {
+		super(simulare);
+		// modificare dimensiune nor la start
+		this.size = Math.random() * 5 + 5;
+		this.x = x;
+		this.y = y;
+		this.opacity = 0.4;
+		this.opacityDecrease = 0.001;
+		this.timer = 0;
+		this.interval = 50;
+	}
+	draw(context) {
+		context.beginPath();
+		context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 10, this.y, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 20, this.y, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 30, this.y, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 5, this.y - 5, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 15, this.y - 5, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 25, this.y - 5, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 35, this.y - 5, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 5, this.y + 5, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 15, this.y + 5, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 25, this.y + 5, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 35, this.y + 5, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 10, this.y + 10, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 20, this.y + 10, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 30, this.y + 10, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 10, this.y - 10, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 20, this.y - 10, this.size, 0, Math.PI * 2);
+		context.arc(this.x - 30, this.y - 10, this.size, 0, Math.PI * 2);
+		context.fillStyle = this.color;
+		context.fill();
+	}
 }
-export class Cloud2 extends Particle {
-  constructor(simulare, x, y) {
-    super(simulare);
-    this.size = Math.random() * 10 + 10;
-    this.x = x;
-    this.y = y;
-    this.opacity = 0.4;
-    this.opacityDecrease = 0.0005;
-    this.timer = 0;
-    this.interval = 50;
-    this.color = `rgba(255, 153, 200, ${this.opacity})`;
-    this.markedForDeletion = false;
-  }
-  draw(context) {
-    context.beginPath();
-    context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 10, this.y, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 20, this.y, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 30, this.y, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 5, this.y - 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 15, this.y - 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 25, this.y - 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 35, this.y - 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 5, this.y + 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 15, this.y + 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 25, this.y + 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 35, this.y + 5, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 10, this.y + 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 20, this.y + 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 30, this.y + 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 10, this.y - 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 20, this.y - 10, this.size, 0, Math.PI * 2);
-    context.arc(this.x - 30, this.y - 10, this.size, 0, Math.PI * 2);
-    context.fillStyle = this.color;
-    context.fill();
-  }
-  update(context) {
-    this.draw(context);
-    if (this.size > 60) {
-      if (this.timer < this.interval) this.timer++;
-      else this.size *= 1.002;
-    } else this.size *= 1.007;
-    this.opacity -= this.opacityDecrease;
-    this.color = `rgba(255, 153, 200, ${this.opacity})`;
-    if (this.size > 100 || this.opacity === 0) this.markedForDeletion = true;
-  }
+
+export class Cloud0 extends Cloud {
+	constructor(simulare, x, y) {
+		super(simulare, x, y);
+		// modificare culoare nor (trebuie modificata si mai jos in update)
+		this.color = `rgba(187, 205, 229, ${this.opacity})`;
+	}
+
+	update(context) {
+		this.draw(context);
+		// modificare dimensiunea la care norul isi incetineste cresterea
+		if (this.size > 40) {
+			if (this.timer < this.interval) this.timer++;
+			// modificare viteza cu care creste dupa acest punct
+			else this.size *= 1.002;
+		}
+		// modificare viteza cu care creste norul de la inceput
+		else this.size *= 1.007;
+		this.opacity -= this.opacityDecrease;
+		this.color = `rgba(187, 205, 229, ${this.opacity})`;
+		if (this.size > 100 || this.opacity === 0) this.markedForDeletion = true;
+	}
+}
+export class Cloud1 extends Cloud {
+	constructor(simulare, x, y) {
+		super(simulare);
+		// modificare culoare nor (trebuie modificata si mai jos in update)
+		this.color = `rgba(0, 205, 229, ${this.opacity})`;
+	}
+
+	update(context) {
+		this.draw(context);
+		// modificare dimensiunea la care norul isi incetineste cresterea
+		if (this.size > 40) {
+			if (this.timer < this.interval) this.timer++;
+			// modificare viteza cu care creste dupa acest punct
+			else this.size *= 1.002;
+		}
+		// modificare viteza cu care creste norul de la inceput
+		else this.size *= 1.007;
+		this.opacity -= this.opacityDecrease;
+		this.color = `rgba(0, 205, 229, ${this.opacity})`;
+		if (this.size > 100 || this.opacity === 0) this.markedForDeletion = true;
+	}
+}
+export class Cloud2 extends Cloud {
+	constructor(simulare, x, y) {
+		super(simulare, x, y);
+		// modificare culoare nor (trebuie modificata si mai jos in update)
+		this.color = `rgba(187, 0, 229, ${this.opacity})`;
+	}
+
+	update(context) {
+		this.draw(context);
+		// modificare dimensiunea la care norul isi incetineste cresterea
+		if (this.size > 40) {
+			if (this.timer < this.interval) this.timer++;
+			// modificare viteza cu care creste dupa acest punct
+			else this.size *= 1.002;
+		}
+		// modificare viteza cu care creste norul de la inceput
+		else this.size *= 1.007;
+		this.opacity -= this.opacityDecrease;
+		this.color = `rgba(187, 0, 229, ${this.opacity})`;
+		if (this.size > 100 || this.opacity === 0) this.markedForDeletion = true;
+	}
+}
+
+export class Cloud3 extends Cloud {
+	constructor(simulare, x, y) {
+		super(simulare, x, y);
+		// modificare culoare nor (trebuie modificata si mai jos in update)
+		this.color = `rgba(187, 205, 0, ${this.opacity})`;
+	}
+
+	update(context) {
+		this.draw(context);
+		// modificare dimensiunea la care norul isi incetineste cresterea
+		if (this.size > 40) {
+			if (this.timer < this.interval) this.timer++;
+			// modificare viteza cu care creste dupa acest punct
+			else this.size *= 1.002;
+		}
+		// modificare viteza cu care creste norul de la inceput
+		else this.size *= 1.007;
+		this.opacity -= this.opacityDecrease;
+		this.color = `rgba(187, 205, 0, ${this.opacity})`;
+		if (this.size > 100 || this.opacity === 0) this.markedForDeletion = true;
+	}
+}
+export class Cloud4 extends Cloud {
+	constructor(simulare, x, y) {
+		super(simulare, x, y);
+		// modificare culoare nor (trebuie modificata si mai jos in update)
+		this.color = `rgba(50, 205, 229, ${this.opacity})`;
+	}
+
+	update(context) {
+		this.draw(context);
+		// modificare dimensiunea la care norul isi incetineste cresterea
+		if (this.size > 40) {
+			if (this.timer < this.interval) this.timer++;
+			// modificare viteza cu care creste dupa acest punct
+			else this.size *= 1.002;
+		}
+		// modificare viteza cu care creste norul de la inceput
+		else this.size *= 1.007;
+		this.opacity -= this.opacityDecrease;
+		this.color = `rgba(50, 205, 229, ${this.opacity})`;
+		if (this.size > 100 || this.opacity === 0) this.markedForDeletion = true;
+	}
+}
+export class Cloud5 extends Cloud {
+	constructor(simulare, x, y) {
+		super(simulare, x, y);
+		// modificare culoare nor (trebuie modificata si mai jos in update)
+		this.color = `rgba(255, 205, 229, ${this.opacity})`;
+	}
+
+	update(context) {
+		this.draw(context);
+		// modificare dimensiunea la care norul isi incetineste cresterea
+		if (this.size > 40) {
+			if (this.timer < this.interval) this.timer++;
+			// modificare viteza cu care creste dupa acest punct
+			else this.size *= 1.002;
+		}
+		// modificare viteza cu care creste norul de la inceput
+		else this.size *= 1.007;
+		this.opacity -= this.opacityDecrease;
+		this.color = `rgba(255, 205, 229, ${this.opacity})`;
+		if (this.size > 100 || this.opacity === 0) this.markedForDeletion = true;
+	}
 }

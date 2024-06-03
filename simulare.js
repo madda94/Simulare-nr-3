@@ -16,7 +16,6 @@ export class Simulare {
     this.explosions = [];
     this.explosionsShip = [];
     this.cloud = [];
-    this.cloud2 = [];
     this.fregataArcCollision1 = false;
     this.fregataArcCollision2 = false;
     this.fregataArcCollision1_2kmS1 = false;
@@ -81,6 +80,9 @@ export class Simulare {
         this.zoomIn(context);
         this.zoomTime += 5;
       }
+      this.cloud.forEach((cloud) => {
+			cloud.draw(context);
+		});
   }
   controlMissiles(context) {
     if (!this.scenariu1Time) {
@@ -178,7 +180,6 @@ export class Simulare {
         (explosion) => !explosion.markedForDeletion
       );
       this.cloud = this.cloud.filter((cloud) => !cloud.markedForDeletion);
-      this.cloud2 = this.cloud2.filter((cloud) => !cloud.markedForDeletion);
       if (this.ships[2].isDrawn) this.ships[2].radar.update();
     }
     Object.keys(this.ships[0].missilesS1).forEach((key) => {
@@ -486,12 +487,11 @@ export class Simulare {
         this.controlAttackShip0S1(this.ships[0]);
         this.controlAttackShip1S1(this.ships[1]);
         if (this.fregataArcCollision1_2kmS1) {
-          this.ships[2].firePK16.update(context);
+          this.ships[2].firePK16_Right.forEach((fire) => {
+            fire.update(context);
+          });
         }
         this.cloud.forEach((cloud) => {
-          cloud.update(context);
-        });
-        this.cloud2.forEach((cloud) => {
           cloud.update(context);
         });
         // this.ships[2].draw(context);
@@ -507,7 +507,9 @@ export class Simulare {
         });
         this.ships[2].draw(context);
         if (this.fregataArcCollision2_2kmS1) {
-          this.ships[2].firePK16_2.update(context);
+          this.ships[2].firePK16_Left.forEach((fire) => {
+            fire.update(context);
+          });
         }
         this.explosionsShip.forEach((explosion) => {
           explosion.update(context);
