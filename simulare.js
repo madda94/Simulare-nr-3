@@ -259,8 +259,8 @@ export class Simulare {
       // modificare directie dupa deviere npr2  scenariu 1 ambele rachete
       missile.speedX = this.speed;
       missile.speedY = this.speed;
-      missile.x2 += missile.speedX / 6;
-      missile.y2 += missile.speedY / 0.7;
+      missile.x2 -= missile.speedX;
+      missile.y2 += missile.speedY;
       if (missile.y2 <= 0 - missile.height) missile.markedForDeletion = true;
     }
   }
