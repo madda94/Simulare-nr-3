@@ -487,9 +487,9 @@ export class Simulare {
         this.controlAttackShip0S1(this.ships[0]);
         this.controlAttackShip1S1(this.ships[1]);
         if (this.fregataArcCollision1_2kmS1) {
-          // this.ships[2].firePK16_Right.forEach((fire) => {
-          //   fire.update(context);
-          // });
+          this.ships[2].firePK16_Right.forEach((fire) => {
+            fire.update(context);
+          });
         }
         this.cloud.forEach((cloud) => {
           cloud.update(context);

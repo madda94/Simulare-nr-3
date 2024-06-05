@@ -261,16 +261,16 @@ export class Radar {
     this.image = radar;
     this.spriteWidth = 129.4;
     this.spriteHeight = 96.25;
-    this.width = this.spriteWidth / 3.6;
-    this.height = this.spriteHeight / 3.6;
+    this.width = this.spriteWidth / 5;
+    this.height = this.spriteHeight / 5;
     this.frameX = 0;
     this.maxFrameX = 4;
     this.maxFrameY = 3;
     this.frameY = 0;
     this.frameCount = 0;
     this.frameInterval = 15;
-    this.x = this.simulare.width / 1.87;
-    this.y = this.simulare.height / 3.12;
+    this.x = this.simulare.width / 1.85;
+    this.y = this.simulare.height / 2.35;
   }
   draw(context) {
     context.drawImage(

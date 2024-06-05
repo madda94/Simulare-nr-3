@@ -120,38 +120,38 @@ export class Fregata extends Ship {
       new FireAK726(this.simulare),
       new FireAK726(this.simulare),
     ];
-    // this.firePK16_Right = [
-		// 	new FirePK16_1(
-		// 		this.simulare,
-		// 		this.x + this.width / 2,
-		// 		this.y + this.height / 3
-		// 	),
-		// 	new FirePK16_2(
-		// 		this.simulare,
-		// 		this.x + this.width / 2,
-		// 		this.y + this.height / 3
-		// 	),
-		// 	new FirePK16_3(
-		// 		this.simulare,
-		// 		this.x + this.width / 2,
-		// 		this.y + this.height / 3
-		// 	),
-		// 	new FirePK16_4(
-		// 		this.simulare,
-		// 		this.x + this.width / 2,
-		// 		this.y + this.height / 3
-		// 	),
-		// 	new FirePK16_5(
-		// 		this.simulare,
-		// 		this.x + this.width / 2,
-		// 		this.y + this.height / 3
-		// 	),
-		// 	new FirePK16_6(
-		// 		this.simulare,
-		// 		this.x + this.width / 2,
-		// 		this.y + this.height / 3
-		// 	),
-		// ];
+    this.firePK16_Right = [
+			new FirePK16_1(
+				this.simulare,
+				this.x + this.width / 2,
+				this.y + this.height / 3
+			),
+			new FirePK16_2(
+				this.simulare,
+				this.x + this.width / 2,
+				this.y + this.height / 3
+			),
+			new FirePK16_3(
+				this.simulare,
+				this.x + this.width / 2,
+				this.y + this.height / 3
+			),
+			new FirePK16_4(
+				this.simulare,
+				this.x + this.width / 2,
+				this.y + this.height / 3
+			),
+			new FirePK16_5(
+				this.simulare,
+				this.x + this.width / 2,
+				this.y + this.height / 3
+			),
+			new FirePK16_6(
+				this.simulare,
+				this.x + this.width / 2,
+				this.y + this.height / 3
+			),
+		];
 		this.firePK16_Left = [
 			new FirePK16_7(
 				this.simulare,
