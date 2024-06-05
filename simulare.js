@@ -108,37 +108,37 @@ export class Simulare {
   }
   zoomIn(context) {
     this.ships[2].radius *= 1.02;
-    this.ships[2].width *= 1.04;
-    this.ships[2].x /= 1.01;
-    this.ships[2].y /= 1.05;
-    this.ships[2].height *= 1.04;
+    this.ships[2].width *= 1.01;
+    this.ships[2].x /= 1;
+    this.ships[2].y /= 1;
+    this.ships[2].height *= 1.01;
     // this.ships[2].draw(context);
     Object.keys(this.ships[0].missilesS1).forEach((key) => {
-      this.ships[0].missilesS1[key].x -= 50;
-      this.ships[0].missilesS1[key].y += 20;
-      this.ships[0].missilesS1[key].width *= 1.02;
-      this.ships[0].missilesS1[key].height *= 1.02;
+      this.ships[0].missilesS1[key].x -= 60;
+      this.ships[0].missilesS1[key].y += 30;
+      this.ships[0].missilesS1[key].width *= 1;
+      this.ships[0].missilesS1[key].height *= 1;
       this.ships[0].missilesS1[key].draw(context);
     });
     Object.keys(this.ships[1].missilesS1).forEach((key) => {
-      this.ships[1].missilesS1[key].x2 += 50;
+      this.ships[1].missilesS1[key].x2 += 70;
       this.ships[1].missilesS1[key].y2 -= 20;
-      this.ships[1].missilesS1[key].width *= 1.02;
-      this.ships[1].missilesS1[key].height *= 1.02;
+      this.ships[1].missilesS1[key].width *= 1;
+      this.ships[1].missilesS1[key].height *= 1;
       this.ships[1].missilesS1[key].draw(context);
     });
     Object.keys(this.ships[0].missilesS2).forEach((key) => {
-      this.ships[0].missilesS2[key].x -= 50;
-      this.ships[0].missilesS2[key].y += 20;
-      this.ships[0].missilesS2[key].width *= 1.02;
-      this.ships[0].missilesS2[key].height *= 1.02;
+      this.ships[0].missilesS2[key].x -= 70;
+      this.ships[0].missilesS2[key].y += 30;
+      this.ships[0].missilesS2[key].width *= 1;
+      this.ships[0].missilesS2[key].height *= 1;
       this.ships[1].missilesS1[key].draw(context);
     });
     Object.keys(this.ships[1].missilesS2).forEach((key) => {
       this.ships[1].missilesS2[key].x += 50;
       this.ships[1].missilesS2[key].y2 -= 20;
-      this.ships[1].missilesS2[key].width *= 1.02;
-      this.ships[1].missilesS2[key].height *= 1.02;
+      this.ships[1].missilesS2[key].width *= 1;
+      this.ships[1].missilesS2[key].height *= 1;
       this.ships[1].missilesS1[key].draw(context);
     });
     this.zoomedIn = true;
@@ -259,8 +259,8 @@ export class Simulare {
       // modificare directie dupa deviere npr2  scenariu 1 ambele rachete
       missile.speedX = this.speed;
       missile.speedY = this.speed;
-      missile.x2 -= missile.speedX;
-      missile.y2 -= missile.speedY;
+      missile.x2 += missile.speedX / 6;
+      missile.y2 += missile.speedY / 0.7;
       if (missile.y2 <= 0 - missile.height) missile.markedForDeletion = true;
     }
   }
@@ -269,17 +269,17 @@ export class Simulare {
       this.controlMissilesBeforeAttackShip0P21S1(
         ship.missilesS1.p21,
         // modificare pozitie unde deviaza npr1 p21
-        this.ships[2].x - this.ships[2].width / 1.8
+        this.ships[2].x - this.ships[2].width / 1.2
       );
     }
     if (ship.missilesS1.p22) {
       this.controlMissilesBeforeAttackShip0P22S1(
         ship.missilesS1.p22,
         // modificare pozitie unde explodeaza npr1 p22
-        this.ships[2].x - this.ships[2].width / 1.8,
+        this.ships[2].x - this.ships[2].width / 10,
         // modificare pozitie explozie npr1 p22
         ship.missilesS1.p22.x - ship.missilesS1.p22.width * 1.1,
-        ship.missilesS1.p22.y,
+        ship.missilesS1.p22.y * 0.8,
         this.explosionShip
       );
     }
@@ -293,14 +293,14 @@ export class Simulare {
       this.controlMissilesBeforeAttackShip1S1(
         ship.missilesS1.p21,
         // modificare pozitie unde racheta deviaza npr2 p21 scenariu 1
-        this.ships[2].x + this.ships[2].width * 1.3
+        this.ships[2].x + this.ships[2].width * 1.4
       );
     }
     if (ship.missilesS1.p22) {
       this.controlMissilesBeforeAttackShip1S1(
         ship.missilesS1.p22,
         // modificare pozitie unde racheta deviaza npr2 p22 scenariu 1
-        this.ships[2].x + ship.missilesS1.p22.width * 2.5
+        this.ships[2].x + ship.missilesS1.p22.width * 4.3
       );
     }
     if (ship.missilesS1.p21 && ship.missilesS1.p21.markedForDeletion)
@@ -487,9 +487,9 @@ export class Simulare {
         this.controlAttackShip0S1(this.ships[0]);
         this.controlAttackShip1S1(this.ships[1]);
         if (this.fregataArcCollision1_2kmS1) {
-          this.ships[2].firePK16_Right.forEach((fire) => {
-            fire.update(context);
-          });
+          // this.ships[2].firePK16_Right.forEach((fire) => {
+          //   fire.update(context);
+          // });
         }
         this.cloud.forEach((cloud) => {
           cloud.update(context);

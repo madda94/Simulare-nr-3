@@ -120,63 +120,63 @@ export class Fregata extends Ship {
       new FireAK726(this.simulare),
       new FireAK726(this.simulare),
     ];
-    this.firePK16_Right = [
-			new FirePK16_1(
-				this.simulare,
-				this.x + this.width / 0.9,
-				this.y + this.height / 3.2
-			),
-			new FirePK16_2(
-				this.simulare,
-				this.x + this.width / 0.95,
-				this.y + this.height / 3.2
-			),
-			new FirePK16_3(
-				this.simulare,
-				this.x + this.width / 1,
-				this.y + this.height / 3.2
-			),
-			new FirePK16_4(
-				this.simulare,
-				this.x + this.width / 1.2,
-				this.y + this.height / 3.2
-			),
-			new FirePK16_5(
-				this.simulare,
-				this.x + this.width / 1.4,
-				this.y + this.height / 3.2
-			),
-			new FirePK16_6(
-				this.simulare,
-				this.x + this.width / 1.6,
-				this.y + this.height / 3.2
-			),
-		];
+    // this.firePK16_Right = [
+		// 	new FirePK16_1(
+		// 		this.simulare,
+		// 		this.x + this.width / 2,
+		// 		this.y + this.height / 3
+		// 	),
+		// 	new FirePK16_2(
+		// 		this.simulare,
+		// 		this.x + this.width / 2,
+		// 		this.y + this.height / 3
+		// 	),
+		// 	new FirePK16_3(
+		// 		this.simulare,
+		// 		this.x + this.width / 2,
+		// 		this.y + this.height / 3
+		// 	),
+		// 	new FirePK16_4(
+		// 		this.simulare,
+		// 		this.x + this.width / 2,
+		// 		this.y + this.height / 3
+		// 	),
+		// 	new FirePK16_5(
+		// 		this.simulare,
+		// 		this.x + this.width / 2,
+		// 		this.y + this.height / 3
+		// 	),
+		// 	new FirePK16_6(
+		// 		this.simulare,
+		// 		this.x + this.width / 2,
+		// 		this.y + this.height / 3
+		// 	),
+		// ];
 		this.firePK16_Left = [
 			new FirePK16_7(
 				this.simulare,
-				this.x + this.width / 0.9,
-				this.y + this.height / 3.2
+				this.x + this.width / 2,
+				this.y + this.height / 2
 			),
 			new FirePK16_8(
 				this.simulare,
-				this.x + this.width / 0.95,
-				this.y + this.height / 3.2
+				this.x + this.width / 2,
+				this.y + this.height / 2
 			),
 			new FirePK16_9(
 				this.simulare,
-				this.x + this.width / 1,
-				this.y + this.height / 3.2
+				this.x + this.width / 2,
+				this.y + this.height / 2
 			),
 			new FirePK16_10(
 				this.simulare,
-				this.x + this.width / 1.2,
-				this.y + this.height / 3.2
+				this.x + this.width / 2,
+				this.y + this.height / 2
 			),
 			new FirePK16_11(
 				this.simulare,
-				this.x + this.width / 1.4,
-				this.y + this.height / 3.2
+				this.x + this.width / 2,
+				this.y + this.height / 2
 			),
 			new FirePK16_12(
 				this.simulare,

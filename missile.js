@@ -16,8 +16,8 @@ class Missile {
     this.height = this.spriteHeight / 3;
     this.zoomedWidth = this.width * 1.22;
     this.zoomedHeight = this.width * 1.22;
-    this.speedX = this.simulare.speed * 3;
-    this.speedY = this.simulare.speed * 1.2;
+    this.speedX = this.simulare.speed * 1;
+    this.speedY = this.simulare.speed * 0.5;
     this.frame = 1;
     this.frameTime = 0;
     this.frameInterval = 5000;
@@ -85,7 +85,7 @@ class Missile {
   drawAfterDeviation2(context) {
     context.save();
     context.translate(this.x2 + this.width / 2, this.y2 + this.height / 2);
-    context.rotate(Math.PI / 6);
+    context.rotate(Math.PI * -2.4);
     context.translate(-this.width / 2, -this.height / 2);
     context.drawImage(
       this.image,
@@ -125,7 +125,7 @@ export class MissileP21 extends Missile {
   constructor(simulare) {
     super(simulare);
     this.x = 0;
-    this.y = this.totalHeight - 70;
+    this.y = this.totalHeight * 0.9;
     this.x2 = this.totalWidth - 100;
     this.y2 = 0;
     this.image = p21Img;
@@ -136,7 +136,7 @@ export class MissileP22 extends Missile {
   constructor(simulare) {
     super(simulare);
     this.x = -70;
-    this.y = this.totalHeight;
+    this.y = this.totalHeight * 0.92;
     this.x2 = this.totalWidth;
     this.y2 = -20;
     this.image = p22Img;
@@ -306,7 +306,7 @@ class FirePK16_Right {
 		this.totalWidth = this.simulare.width;
 		this.totalHeight = this.simulare.height;
 		this.x = x;
-		this.width = 10;
+		this.width = 7;
 		this.height = 30;
 		this.y = y;
 		this.moveX = this.x;
@@ -336,7 +336,7 @@ class FirePK16_Right {
 			// delay has elapsed, update the particle
 			if (!this.hasAppeared) {
 				this.draw(context);
-				if (this.moveX >= this.x - 200) {
+				if (this.moveX >= this.x - 240) {
           this.moveX -= this.speedX;
           this.moveY += this.speedY;
           this.draw(context);
@@ -355,13 +355,13 @@ export class FirePK16_1 extends FirePK16_Right {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 6;
+		this.rotationGrade = -Math.PI / 1.5;
 		this.numberCloud = 0;
 		this.delay = 50; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed;
-		this.speedY = this.simulare.speed;
+		this.speedX = 7;
+		this.speedY = 4.5;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud0(this.simulare, x, y));
@@ -372,13 +372,13 @@ export class FirePK16_2 extends FirePK16_Right {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 1.4;
-		this.numberCloud = 1;
-		this.delay = 100; // delay in milliseconds (1 second)
+		this.rotationGrade = -Math.PI / 1.5;
+		this.numberCloud = 3;
+		this.delay = 80; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed;
-		this.speedY = this.simulare.speed * 1.5;
+		this.speedX = 7;
+		this.speedY = 4;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud1(this.simulare, x, y));
@@ -388,13 +388,13 @@ export class FirePK16_3 extends FirePK16_Right {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 1.2;
+		this.rotationGrade = -Math.PI / 1.5;
 		this.numberCloud = 2;
-		this.delay = 150; // delay in milliseconds (1 second)
+		this.delay = 110; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed * 1.5;
-		this.speedY = this.simulare.speed * 2;
+		this.speedX = 7.6;
+		this.speedY = 4;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud2(this.simulare, x, y));
@@ -404,13 +404,13 @@ export class FirePK16_4 extends FirePK16_Right {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 1.85;
+		this.rotationGrade = -Math.PI / 1.5;
 		this.numberCloud = 3;
-		this.delay = 200; // delay in milliseconds (1 second)
+		this.delay = 140; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed * 2;
-		this.speedY = this.simulare.speed * 2.5;
+		this.speedX = 6;
+		this.speedY = 3.5;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud3(this.simulare, x, y));
@@ -420,13 +420,13 @@ export class FirePK16_5 extends FirePK16_Right {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 2.1;
+		this.rotationGrade = -Math.PI / 2;
 		this.numberCloud = 4;
-		this.delay = 250; // delay in milliseconds (1 second)
+		this.delay = 50; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed * 2.5;
-		this.speedY = this.simulare.speed * 3;
+		this.speedX = 9;
+		this.speedY = 5;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud4(this.simulare, x, y));
@@ -436,13 +436,13 @@ export class FirePK16_6 extends FirePK16_Right {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 2.3;
+		this.rotationGrade = -Math.PI / 1.5;
 		this.numberCloud = 5;
-		this.delay = 300; // delay in milliseconds (1 second)
+		this.delay = 200; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed * 3;
-		this.speedY = this.simulare.speed * 3;
+		this.speedX = 7;
+		this.speedY = 3;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud5(this.simulare, x, y));
@@ -456,7 +456,7 @@ class FirePK16_Left {
 		this.totalWidth = this.simulare.width;
 		this.totalHeight = this.simulare.height;
 		this.x = x;
-		this.width = 10;
+		this.width = 7;
 		this.height = 30;
 		this.y = y;
 		this.moveX = this.x;
@@ -486,7 +486,7 @@ class FirePK16_Left {
 			// delay has elapsed, update the particle
 			if (!this.hasAppeared) {
 				this.draw(context);
-				if (this.moveX <= this.x + 200) {
+				if (this.moveX <= this.x + 250) {
           this.moveX += this.speedX;
           this.moveY -= this.speedY;
           this.draw(context);
@@ -505,13 +505,13 @@ export class FirePK16_7 extends FirePK16_Left {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 6;
+		this.rotationGrade = -Math.PI / 1.7;
 		this.numberCloud = 0;
 		this.delay = 50; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
 		this.speedX = this.simulare.speed * 3;
-		this.speedY = this.simulare.speed * 2.5;
+		this.speedY = this.simulare.speed * 1.6;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud0(this.simulare, x, y));
@@ -522,13 +522,13 @@ export class FirePK16_8 extends FirePK16_Left {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 1.4;
+		this.rotationGrade = -Math.PI / 1.7;
 		this.numberCloud = 1;
-		this.delay = 100; // delay in milliseconds (1 second)
+		this.delay = 80; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
 		this.speedX = this.simulare.speed * 3;
-		this.speedY = this.simulare.speed * 2;
+		this.speedY = this.simulare.speed * 1.4;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud1(this.simulare, x, y));
@@ -538,13 +538,13 @@ export class FirePK16_9 extends FirePK16_Left {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 1.2;
+		this.rotationGrade = -Math.PI / 1.7;
 		this.numberCloud = 2;
-		this.delay = 150; // delay in milliseconds (1 second)
+		this.delay = 110; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed * 2.5;
-		this.speedY = this.simulare.speed * 2;
+		this.speedX = this.simulare.speed * 3;
+		this.speedY = this.simulare.speed * 1;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud2(this.simulare, x, y));
@@ -554,13 +554,13 @@ export class FirePK16_10 extends FirePK16_Left {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 1.85;
+		this.rotationGrade = -Math.PI / 1.7;
 		this.numberCloud = 3;
-		this.delay = 200; // delay in milliseconds (1 second)
+		this.delay = 140; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed * 2;
-		this.speedY = this.simulare.speed * 1.5;
+		this.speedX = this.simulare.speed * 3;
+		this.speedY = this.simulare.speed * 0.9;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud3(this.simulare, x, y));
@@ -570,13 +570,13 @@ export class FirePK16_11 extends FirePK16_Left {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 2.1;
+		this.rotationGrade = -Math.PI / 1.7;
 		this.numberCloud = 4;
-		this.delay = 250; // delay in milliseconds (1 second)
+		this.delay = 170; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed * 1.5;
-		this.speedY = this.simulare.speed;
+		this.speedX = this.simulare.speed * 3.1;
+		this.speedY = this.simulare.speed * 0.7;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud4(this.simulare, x, y));
@@ -586,13 +586,13 @@ export class FirePK16_12 extends FirePK16_Left {
 	constructor(simulare, x, y) {
 		super(simulare, x, y);
 		// modificare orientare linie (rotire mai spre sus sau spre jos)
-		this.rotationGrade = -Math.PI / 2.3;
+		this.rotationGrade = -Math.PI / 1.7;
 		this.numberCloud = 5;
-		this.delay = 300; // delay in milliseconds (1 second)
+		this.delay = 200; // delay in milliseconds (1 second)
 		this.fireTime = 0;
 		// modificare directie si viteza
-		this.speedX = this.simulare.speed;
-		this.speedY = this.simulare.speed * 0.5;
+		this.speedX = this.simulare.speed * 3;
+		this.speedY = this.simulare.speed * 1;
 	}
 	createCloud(x, y) {
 		this.simulare.cloud.unshift(new Cloud5(this.simulare, x, y));
