@@ -14,7 +14,7 @@ export class Simulare {
     this.smokeParticles2 = [];
     this.smokeParticlesAK726 = [];
     this.explosions = [];
-    this.explosionsShip = [];
+    this.explosions2 = [];
     this.cloud = [];
     this.fregataArcCollision1 = false;
     this.fregataArcCollision2 = false;
@@ -52,7 +52,22 @@ export class Simulare {
   draw(context) {
     context.clearRect(0, 0, this.width, this.height);
     this.background.draw(context);
+    if (this.scenariu2Time)
+    Object.keys(this.ships[0].missilesS2).forEach((key) => {
+      this.ships[0].missilesS2[key].draw(context);
+   });
+    this.explosions.forEach((explosion) => {
+      explosion.draw(context); 
+     });
     this.ships[2].draw(context);
+    if (this.scenariu2Time)
+    Object.keys(this.ships[1].missilesS2).forEach((key) => {
+      this.ships[1].missilesS2[key].draw2(context);
+    });
+    this.explosions2.forEach((explosion) => {
+      explosion.draw(context); 
+     });
+
   }
   checkFregataLineCollision(context) {
     if (
@@ -170,15 +185,18 @@ export class Simulare {
         (particle) => !particle.markedForDeletion
       );
       this.explosions.forEach((explosion) => {
-        explosion.update(context);
-        explosion.draw(context);
+       explosion.update(context); 
       });
       this.explosions = this.explosions.filter(
         (explosion) => !explosion.markedForDeletion
       );
-      this.explosionsShip = this.explosionsShip.filter(
+      this.explosions2.forEach((explosion) => {
+        explosion.update(context);
+      });
+      this.explosions2 = this.explosions2.filter(
         (explosion) => !explosion.markedForDeletion
       );
+
       this.cloud = this.cloud.filter((cloud) => !cloud.markedForDeletion);
       if (this.ships[2].isDrawn) this.ships[2].radar.update();
     }
@@ -238,7 +256,7 @@ export class Simulare {
       missile.y -= missile.speedY;
     } else if (missile && missile.x >= shipPos) {
       if (this.explosionCount < this.maxExplosions) {
-        this.explosionsShip.unshift(
+        this.explosions.unshift(
           new ExplosionShip(this, explosionX, explosionY, explosionSize)
         );
         this.explosionCount++;
@@ -261,7 +279,7 @@ export class Simulare {
       missile.speedY = this.speed;
       missile.x2 -= missile.speedX;
       missile.y2 += missile.speedY;
-      if (missile.y2 <= 0 - missile.height) missile.markedForDeletion = true;
+      if (missile.y2 >= this.height + missile.height) missile.markedForDeletion = true;
     }
   }
   controlAttackShip0S1(ship) {
@@ -278,8 +296,8 @@ export class Simulare {
         // modificare pozitie unde explodeaza npr1 p22
         this.ships[2].x - this.ships[2].width / 10,
         // modificare pozitie explozie npr1 p22
-        ship.missilesS1.p22.x - ship.missilesS1.p22.width * 1.1,
-        ship.missilesS1.p22.y * 0.8,
+        ship.missilesS1.p22.x - ship.missilesS1.p22.width * 1,
+        ship.missilesS1.p22.y * 0.75,
         this.explosionShip
       );
     }
@@ -312,23 +330,23 @@ export class Simulare {
   controlFireAK630(context, ak1, ak2) {
     if (!ak1.fireStop && !this.attackOverS2) {
       ak1.update(context);
-      ak2.x = this.width / 1.8;
-      ak2.y = this.height / 2.95;
+      ak2.x = this.width / 1.82;
+      ak2.y = this.height / 2.3;
       ak2.update(context);
     }
   }
   controlFireAK630_2(context, ak1, ak2) {
     if (!ak1.fireStop && !this.attackOverS2) {
       ak1.update(context);
-      ak2.x = this.width / 2.35;
-      ak2.y = this.height / 3;
+      ak2.x = this.width / 2.25;
+      ak2.y = this.height / 2.1;
       ak2.update(context);
     }
   }
   controlFireAK726(context, ak1, ak2) {
     if (!this.attackOver) {
       ak2.fireInterval = 120;
-      ak2.x = this.width / 2.6;
+      ak2.x = this.width / 2.4;
       ak2.y = this.height / 2;
       ak1.update(context);
       ak2.update(context);
@@ -343,8 +361,8 @@ export class Simulare {
     explosionSize
   ) {
     if (missile && missile.x < shipPos) {
-      missile.speedX = this.speed;
-      missile.speedY = this.speed * 0.5;
+      missile.speedX = this.speed * 1.4;
+      missile.speedY = this.speed * 0.55;
       missile.lightHeadMissile();
       missile.x += missile.speedX;
       missile.y -= missile.speedY;
@@ -366,14 +384,14 @@ export class Simulare {
     explosionSize
   ) {
     if (missile && missile.x2 > shipPos) {
-      missile.speedX = this.speed;
-      missile.speedY = this.speed * 0.5;
+      missile.speedX = this.speed + 0.25;
+      missile.speedY = this.speed + 0.05;
       missile.lightHeadMissile();
       missile.x2 -= missile.speedX;
       missile.y2 += missile.speedY;
     } else if (missile && missile.x2 <= shipPos) {
       if (this.explosionCount < this.maxExplosions) {
-        this.explosions.unshift(
+        this.explosions2.unshift(
           new ExplosionShip(this, explosionX, explosionY, explosionSize)
         );
         this.explosionCount++;
@@ -387,10 +405,10 @@ export class Simulare {
       this.controlMissilesBeforeAttackShip0S2(
         ship.missilesS2.p21,
         // modificare pozitie unde explodeaza racheta npr1 p21 scenariu 2
-        this.ships[2].x - this.ships[2].width / 1.8,
+        this.ships[2].x - this.ships[2].width / 5,
         // modificare pozitie explozie
-        ship.missilesS2.p22.x - ship.missilesS2.p22.width * 1.5,
-        ship.missilesS2.p22.y - ship.missilesS2.p22.height * 1.5,
+        ship.missilesS2.p21.x - ship.missilesS2.p21.width * 0.6,
+        ship.missilesS2.p21.y - ship.missilesS2.p21.height * 2,
         this.explosionShip
       );
     }
@@ -398,10 +416,10 @@ export class Simulare {
       this.controlMissilesBeforeAttackShip0S2(
         ship.missilesS2.p22,
         // modificare pozitie unde explodeaza racheta npr1 p22 scenariu 2
-        this.ships[2].x + 50,
+        this.ships[2].x,
         // modificare pozitie explozie
-        ship.missilesS2.p22.x - ship.missilesS2.p22.width * 1.25,
-        ship.missilesS2.p22.y - ship.missilesS2.p22.height * 1.25,
+        ship.missilesS2.p22.x - ship.missilesS2.p22.width * 0.7,
+        ship.missilesS2.p22.y - ship.missilesS2.p22.height * 2.2,
         this.explosionShip
       );
     }
@@ -415,10 +433,10 @@ export class Simulare {
       this.controlMissilesBeforeAttackShip1S2(
         ship.missilesS2.p21,
         // modificare pozitie unde explodeaza racheta npr2 p21 scenariu 2
-        this.ships[2].x + this.ships[2].width * 1.3,
+        this.ships[2].x + this.ships[2].width * 0.6,
         // modificare pozitie explozie
-        ship.missilesS2.p21.x2,
-        ship.missilesS2.p21.y2,
+        ship.missilesS2.p21.x2 - ship.missilesS2.p21.width,
+        ship.missilesS2.p21.y2 - ship.missilesS2.p21.height,
         this.explosionShip
       );
     }
@@ -428,8 +446,8 @@ export class Simulare {
         // modificare pozitie unde explodeaza racheta npr2 p22 scenariu 2
         this.ships[2].x + ship.missilesS2.p22.width * 2.5,
         // modificare pozitie explozie
-        ship.missilesS2.p22.x2 - ship.missilesS2.p22.width * 1.1,
-        ship.missilesS2.p22.y2,
+        ship.missilesS2.p22.x2 - ship.missilesS2.p22.width ,
+        ship.missilesS2.p22.y2 - ship.missilesS2.p22.height,
         this.explosionShip
       );
     }
@@ -505,16 +523,17 @@ export class Simulare {
             this.ships[1].missilesS1[key].draw2(context);
           else this.ships[1].missilesS1[key].drawAfterDeviation2(context);
         });
+        this.explosions.forEach((explosion) => {
+          explosion.update(context);
+          explosion.draw(context);
+        });
         this.ships[2].draw(context);
         if (this.fregataArcCollision2_2kmS1) {
           this.ships[2].firePK16_Left.forEach((fire) => {
             fire.update(context);
           });
         }
-        this.explosionsShip.forEach((explosion) => {
-          explosion.update(context);
-          explosion.draw(context);
-        });
+        
         if (
           Object.keys(this.ships[0].missilesS1).length === 0 &&
           Object.keys(this.ships[1].missilesS1).length === 0
@@ -530,15 +549,6 @@ export class Simulare {
 
   scenariu2(context) {
     if (this.scenariu2Time && this.continue) {
-      Object.keys(this.ships[0].missilesS2).forEach((key) => {
-        this.ships[0].missilesS2[key].draw(context);
-        this.ships[0].missilesS2[key].update();
-      });
-      // this.ships[2].draw(context);
-      Object.keys(this.ships[1].missilesS2).forEach((key) => {
-        this.ships[1].missilesS2[key].draw2(context);
-        this.ships[1].missilesS2[key].update2();
-      });
       this.checkFregataLineCollision_2kmS2();
       this.controlAttackShip0S2(this.ships[0]);
       this.controlAttackShip1S2(this.ships[1]);
@@ -571,10 +581,6 @@ export class Simulare {
       this.smokeParticlesAK726.forEach((particle) => {
         particle.draw(context);
       });
-      this.explosionsShip.forEach((explosion) => {
-        explosion.update(context);
-        explosion.draw(context);
-      });
       if (
         Object.keys(this.ships[0].missilesS2).length === 0 &&
         Object.keys(this.ships[1].missilesS2).length === 0
@@ -585,7 +591,6 @@ export class Simulare {
       }
     }
   }
-
   animate(context) {
     this.draw(context);
     this.update(context);

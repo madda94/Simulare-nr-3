@@ -153,8 +153,8 @@ export class FireAK630 {
     this.spriteHeight = 260;
     this.width = this.spriteWidth / 5;
     this.height = this.spriteHeight / 5;
-    this.x = this.simulare.width / 1.77;
-    this.y = this.simulare.height / 3.1;
+    this.x = this.simulare.width / 1.79;
+    this.y = this.simulare.height / 2.4;
     this.image = ak630img;
     this.fireCount = 0;
     this.maxFire = 40;
@@ -184,8 +184,8 @@ export class FireAK630 {
 export class FireAK630_2 extends FireAK630 {
   constructor(simulare) {
     super(simulare);
-    this.x = this.simulare.width / 2.35;
-    this.y = this.simulare.height / 2.9;
+    this.x = this.simulare.width / 2.25;
+    this.y = this.simulare.height / 2.25;
   }
   createSmokeReaction() {
     for (let i = 0; i < 15; i++) {
@@ -203,8 +203,8 @@ export class FireAK726 {
     this.spriteHeight = 170;
     this.width = this.spriteWidth / 2.5;
     this.height = this.spriteHeight / 2.5;
-    this.x = this.simulare.width / 2.55;
-    this.y = this.simulare.height / 2.3;
+    this.x = this.simulare.width / 2.35;
+    this.y = this.simulare.height / 1.9;
     this.moveX = this.x;
     this.moveY = this.y;
     this.image = ak726img;

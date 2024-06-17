@@ -38,7 +38,8 @@ export class Ship {
     this.missilesS1 = {
       p21: new MissileP21(this.simulare),
       p22: new MissileP22(this.simulare),
-    }; this.missilesS2 = {
+    }; 
+    this.missilesS2 = {
       p21: new MissileP21(this.simulare),
       p22: new MissileP22(this.simulare),
     };
